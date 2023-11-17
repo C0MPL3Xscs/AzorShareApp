@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ForgotPassword"
+    android:background="@drawable/background">
+
+    <TextView
+        android:id="@+id/OTPText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Enter the code we sent to your email"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="@+id/imageView4" />
+
+    <EditText
+        android:id="@+id/CodeField"
+        android:layout_width="327dp"
+        android:layout_height="50dp"
+        android:textAlignment="center"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/round_input"
+        android:ems="10"
+        android:hint=" Code"
+        android:inputType="numberPassword"
+        android:maxLength="7"
+        android:textColor="@color/black"
+        android:textColorHint="#808080"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/OTPText" />
+
+    <Button
+        android:id="@+id/FPCbt"
+        android:layout_width="216dp"
+        android:layout_height="55dp"
+        android:background="@drawable/round_buttons"
+        android:text="NEXT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/CodeField"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/CodeField"
+        app:layout_constraintTop_toBottomOf="@+id/CodeField"
+        app:layout_constraintVertical_bias="0.093" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="209dp"
+        android:layout_height="201dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_logo_foreground" />
+
+    <Button
+        android:id="@+id/ResendEmail"
+        android:layout_width="272dp"
+        android:layout_height="45dp"
+        android:background="#0000"
+        android:text="click here to Resend email"
+        android:textColor="@color/white"
+        android:textSize="11dp"
+        app:layout_constraintEnd_toEndOf="@+id/FPCbt"
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toStartOf="@+id/FPCbt"
+        app:layout_constraintTop_toBottomOf="@+id/FPCbt" />
+
+    <TextView
+        android:id="@+id/OTPError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text=""
+        android:textColor="#FF0000"
+        app:layout_constraintBottom_toTopOf="@+id/CodeField"
+        app:layout_constraintStart_toStartOf="@+id/CodeField" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

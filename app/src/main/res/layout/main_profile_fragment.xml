@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.main_screen.profile.Profile">
+
+    <ImageView
+        android:id="@+id/BannerImg"
+        android:layout_width="match_parent"
+        android:layout_height="386dp"
+        android:src="@drawable/default_banner"/>
+
+    <ImageView
+        android:id="@+id/ProfilePic"
+        android:layout_width="191dp"
+        android:layout_height="178dp"
+        android:layout_alignBottom="@+id/BannerImg"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="120dp"
+        android:src="@drawable/default_profile_picture" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="169dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/ProfilePic"
+        android:layout_alignEnd="@+id/ProfilePic"
+        android:layout_alignBottom="@+id/BannerImg"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="91dp"
+        android:text="Name Holder"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="491dp"
+        android:layout_below="@+id/Buttons"
+        android:layout_marginTop="-31dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="411dp"
+            android:layout_gravity="bottom">
+
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/Buttons"
+        android:layout_width="182dp"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/BannerImg"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="114dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginBottom="-31dp"
+        android:foregroundGravity="center">
+
+        <Button
+            android:id="@+id/Followbt"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="left"
+            android:background="@drawable/circle_buttons"
+            android:drawableTop="@drawable/baseline_person_add_alt_1_24"
+            android:paddingTop="5dp"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/Messagebt"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="right"
+            android:background="@drawable/circle_buttons"
+            android:drawableTop="@drawable/baseline_message_24"
+            android:paddingTop="5dp"
+            android:textColor="#fff" />
+    </FrameLayout>
+
+</RelativeLayout>
