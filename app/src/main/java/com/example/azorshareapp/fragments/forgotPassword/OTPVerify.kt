@@ -10,12 +10,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.azorshareapp.activities.ForgotPassword
 import com.example.azorshareapp.R
-import com.example.azorshareapp.services.network.NetworkTask
-import com.example.azorshareapp.services.network.NetworkTaskCallback
 import org.json.JSONException
 import org.json.JSONObject
 
-class OTPVerify : Fragment(), NetworkTaskCallback {
+class OTPVerify : Fragment(){
 
     private lateinit var progressDialog: ProgressDialog
     private var tries = 0
@@ -61,39 +59,12 @@ class OTPVerify : Fragment(), NetworkTaskCallback {
                 // Show loading animation
                 progressDialog.setCancelable(false)
                 progressDialog.show()
-                // Send a network request to validate the code
-                val networkTask = NetworkTask(this@OTPVerify, json.toString(), "validateOTP")
-                networkTask.execute()
+
+                TODO() //MAKE REQUEST TO VALIDADE OTP
             }
         }
 
         return view
-    }
-
-    override fun onNetworkTaskComplete(result: Boolean, jsonResponse: String) {
-        // Close loading animation
-        progressDialog.dismiss()
-        if (result) {
-            try {
-                // Parse the response JSON
-                val jsonObject = JSONObject(jsonResponse)
-                val header = jsonObject.getJSONObject("header")
-                val resCode = header.getString("resCode")
-                if (resCode == "00000") {
-                    if (activity is ForgotPassword) {
-                        // If the code is valid, move on to the next step of password recovery
-                        (activity as ForgotPassword).changePassword()
-                    }
-                } else if (resCode == "00003") {
-                    error("Code is not valid")
-                }
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        } else {
-            // Notify the user that the network request failed
-            println("Network request failed")
-        }
     }
 
     private fun error(message: String) {

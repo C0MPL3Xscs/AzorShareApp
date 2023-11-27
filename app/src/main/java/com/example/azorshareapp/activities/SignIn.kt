@@ -8,15 +8,13 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.azorshareapp.services.network.REQUESTS
 import com.example.azorshareapp.R
-import com.example.azorshareapp.models.LogInData
-import com.example.azorshareapp.services.network.NetworkTask
-import com.example.azorshareapp.services.network.NetworkTaskCallback
 import com.google.gson.Gson
-import org.json.JSONException
 import org.json.JSONObject
 
-class SignIn : AppCompatActivity(), NetworkTaskCallback {
+
+class SignIn : AppCompatActivity() {
 
     // Variables
     private var passwordShown = false
@@ -80,10 +78,12 @@ class SignIn : AppCompatActivity(), NetworkTaskCallback {
     fun toggleView() {
         val passwordEditText = findViewById<EditText>(R.id.Password)
         passwordShown = if (!passwordShown) {
-            passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+            passwordEditText.inputType =
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
             true
         } else {
-            passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            passwordEditText.inputType =
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             false
         }
         // Move cursor to the end
@@ -101,36 +101,29 @@ class SignIn : AppCompatActivity(), NetworkTaskCallback {
         // Show loading animation
         progressDialog.setCancelable(false)
         progressDialog.show()
+
         val username = usernameField.text.toString()
         val password = passwordField.text.toString()
-        val data = LogInData(username, password)
-        val json = json(data)
 
-        val networkTask = NetworkTask(this, json, "login")
-        networkTask.execute()
-    }
+        //LOGIN REQUEST
+        val request = REQUESTS()
+        progressDialog.show()
 
-    // Called when network task is complete
-    override fun onNetworkTaskComplete(result: Boolean, jsonResponse: String) {
-        // Close loading animation
-        progressDialog.dismiss()
-        if (result) {
-            try {
-                // Parse response JSON and check response code
-                val jsonObject = JSONObject(jsonResponse)
-                val header = jsonObject.getJSONObject("header")
-                val resCode = header.getString("resCode")
-                when {
-                    resCode == "00000" -> startApp() // Launch Main activity
-                    resCode == "00003" -> error("Incorrect username or password") // Incorrect username or password
+        request.login(username, password, object : REQUESTS.LoginCallback {
+            override fun onResult(response: String) {
+                val jsonString = response
+                val jsonObject = JSONObject(jsonString)
+                progressDialog.dismiss()
+                if (jsonObject.getString("rescode") == "0001") {
+                    startApp()
+                } else {
+                    error("Password ou nome de utilizador invalidos")
                 }
-            } catch (e: JSONException) {
-                e.printStackTrace()
             }
-        } else {
-            println("Network request failed") // Network error
-        }
+        })
+
     }
+
 
     // Launch Main activity and finish this activity
     private fun startApp() {

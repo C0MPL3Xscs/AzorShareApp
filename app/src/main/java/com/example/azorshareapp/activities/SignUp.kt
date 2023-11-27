@@ -9,15 +9,13 @@ import com.example.azorshareapp.fragments.signUp.OTP
 import com.example.azorshareapp.fragments.signUp.Password
 import com.example.azorshareapp.fragments.signUp.Username
 import com.example.azorshareapp.models.AccountModel
-import com.example.azorshareapp.services.network.NetworkTask
-import com.example.azorshareapp.services.network.NetworkTaskCallback
 import com.example.azorshareapp.utils.RegexUtils
 import androidx.fragment.app.FragmentManager
 import com.google.gson.Gson
 import org.json.JSONException
 import org.json.JSONObject
 
-class SignUp : AppCompatActivity(), NetworkTaskCallback {
+class SignUp : AppCompatActivity(){
 
     // Declare instance variables
     private lateinit var fragmentManager: FragmentManager
@@ -63,10 +61,11 @@ class SignUp : AppCompatActivity(), NetworkTaskCallback {
         val json = json(acc)
         val json2 = JSONObject()
         json2.put("username", username)
-        val networkTask = NetworkTask(this, json, "signup")
-        networkTask.execute()
-        val opt = NetworkTask(this, json2.toString(), "sendOTP")
-        opt.execute()
+
+        TODO() //MAKE REQUEST TO CREATE ACCOUNT
+
+        TODO() // MAKE REQUEST TO SEND OTP
+
         switchFragment("OTP", password)
     }
 
@@ -115,11 +114,6 @@ class SignUp : AppCompatActivity(), NetworkTaskCallback {
         }
     }
 
-    // Handle the completion of the network task
-    override fun onNetworkTaskComplete(result: Boolean, jsonResponse: String) {
-        // Implement the method body as per your requirements
-    }
-
     fun sendOTP() {
         val json2 = JSONObject()
         try {
@@ -127,7 +121,6 @@ class SignUp : AppCompatActivity(), NetworkTaskCallback {
         } catch (e: JSONException) {
             throw RuntimeException(e)
         }
-        val opt = NetworkTask(this, json2.toString(), "sendOTP")
-        opt.execute()
+        TODO() //MAKE REQUEST TO SEND OTP
     }
 }

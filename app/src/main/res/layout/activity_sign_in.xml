@@ -44,7 +44,7 @@
         android:layout_marginTop="44dp"
         android:background="@drawable/round_input"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Utilizador"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -56,10 +56,10 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="133dp"
-        android:layout_height="47dp"
+        android:layout_width="190dp"
+        android:layout_height="44dp"
         android:background="@drawable/round_buttons"
-        android:text="LOGIN"
+        android:text="INICIAR SESSÃO"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="@+id/Password"
         app:layout_constraintHorizontal_bias="0.491"
@@ -71,11 +71,11 @@
         android:id="@+id/button2"
         android:layout_width="141dp"
         android:layout_height="47dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="256dp"
         android:background="@drawable/round_buttons"
-        android:text="Sign up"
+        android:text="Registar"
         app:layout_constraintEnd_toEndOf="@+id/Password"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toStartOf="@+id/Password"
         app:layout_constraintTop_toBottomOf="@+id/Password" />
 
@@ -83,12 +83,12 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Don't have an account?"
+        android:layout_marginBottom="4dp"
+        android:text="Não tem uma conta?"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="@+id/button2"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/button2" />
 
     <Button
@@ -105,11 +105,11 @@
 
     <Button
         android:id="@+id/ForgotPassword"
-        android:layout_width="203dp"
-        android:layout_height="42dp"
+        android:layout_width="212dp"
+        android:layout_height="33dp"
         android:layout_marginBottom="4dp"
-        android:background = "#0000"
-        android:text="Forgot your password?"
+        android:background="#0000"
+        android:text="Esqueceu palavra-passe?"
         android:textColor="@color/white"
         android:textSize="11dp"
         app:layout_constraintBottom_toTopOf="@+id/button"

@@ -10,7 +10,7 @@
         android:id="@+id/BannerImg"
         android:layout_width="match_parent"
         android:layout_height="386dp"
-        android:src="@drawable/default_banner"/>
+        android:src="@drawable/default_banner" />
 
     <ImageView
         android:id="@+id/ProfilePic"

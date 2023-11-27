@@ -9,12 +9,10 @@ import com.example.azorshareapp.R
 import com.example.azorshareapp.fragments.forgotPassword.OTPVerify
 import com.example.azorshareapp.fragments.forgotPassword.PasswordRecovery
 import com.example.azorshareapp.fragments.forgotPassword.UsernameRecovery
-import com.example.azorshareapp.services.network.NetworkTask
-import com.example.azorshareapp.services.network.NetworkTaskCallback
 import org.json.JSONException
 import org.json.JSONObject
 
-class ForgotPassword : AppCompatActivity(), NetworkTaskCallback {
+class ForgotPassword : AppCompatActivity(){
 
     private var username: String? = null
 
@@ -92,11 +90,7 @@ class ForgotPassword : AppCompatActivity(), NetworkTaskCallback {
         } catch (e: JSONException) {
             throw RuntimeException(e)
         }
-        val opt = NetworkTask(this, json2.toString(), "sendOTP")
-        opt.execute()
+        TODO() //MAKE REQUEST TO SEND OTP
     }
 
-    override fun onNetworkTaskComplete(result: Boolean, json: String) {
-        // Handle network task completion
-    }
 }

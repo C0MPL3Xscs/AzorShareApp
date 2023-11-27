@@ -10,12 +10,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.azorshareapp.R
 import com.example.azorshareapp.activities.SignUp
-import com.example.azorshareapp.services.network.NetworkTask
-import com.example.azorshareapp.services.network.NetworkTaskCallback
 import org.json.JSONException
 import org.json.JSONObject
 
-class Username : Fragment(), NetworkTaskCallback {
+class Username : Fragment(){
 
     // Declare instance variables
     private lateinit var finalUsername: String
@@ -54,11 +52,9 @@ class Username : Fragment(), NetworkTaskCallback {
                 progressDialog.setCancelable(false)
                 progressDialog.show()
 
-                // Otherwise, save the username and make a network request to validate it
                 finalUsername = username
-                val networkTask =
-                    NetworkTask(this@Username, json.toString(), "signup/validateUsername")
-                networkTask.execute()
+
+                TODO() //MAKE REQUEST TO VALIDADE USERNAME
             }
         }
 
@@ -70,34 +66,6 @@ class Username : Fragment(), NetworkTaskCallback {
     private fun changeFragment(fragment: String) {
         if (activity is SignUp) {
             (activity as SignUp).switchFragment(fragment, finalUsername)
-        }
-    }
-
-    // Callback method called when the network request is complete
-    override fun onNetworkTaskComplete(result: Boolean, jsonResponse: String) {
-        // Close loading animation
-        progressDialog.dismiss()
-
-        // If the network request is successful, process the response
-        if (result) {
-            try {
-                val jsonObject = JSONObject(jsonResponse)
-                val header = jsonObject.getJSONObject("header")
-                val resCode = header.getString("resCode")
-
-                // If the response code indicates success, switch to the next fragment
-                if (resCode == "00000") {
-                    changeFragment("Password")
-                } else if (resCode == "00005") {
-                    // If the response code indicates that the username already exists, display an error message
-                    error("Username already exists")
-                }
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        } else {
-            // If the network request fails, print an error message to the console
-            println("Network request failed")
         }
     }
 

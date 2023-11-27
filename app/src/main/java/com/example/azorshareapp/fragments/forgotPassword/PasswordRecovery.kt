@@ -8,14 +8,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.azorshareapp.activities.ForgotPassword
 import com.example.azorshareapp.R
-import com.example.azorshareapp.services.network.NetworkTask
-import com.example.azorshareapp.services.network.NetworkTaskCallback
 import org.json.JSONException
 import org.json.JSONObject
 
-class PasswordRecovery : Fragment(), NetworkTaskCallback {
+class PasswordRecovery : Fragment(){
 
     private var finalPassword: String = ""
     private lateinit var progressDialog: ProgressDialog
@@ -62,36 +59,8 @@ class PasswordRecovery : Fragment(), NetworkTaskCallback {
         } catch (e: JSONException) {
             e.printStackTrace()
         }
-        val networkTask = NetworkTask(this, json.toString(), "recoverPassword")
-        networkTask.execute()
-    }
 
-    override fun onNetworkTaskComplete(result: Boolean, jsonResponse: String) {
-        // Close loading animation
-        progressDialog.dismiss()
-        if (result) {
-            try {
-                // Parse the JSON response from the server
-                val jsonObject = JSONObject(jsonResponse)
-                val header = jsonObject.getJSONObject("header")
-                val resCode = header.getString("resCode")
-
-                // Check if the password was successfully recovered
-                if (resCode == "00000") {
-                    if (activity is ForgotPassword) {
-                        // Finish the password recovery process if the password was successfully recovered
-                        (activity as ForgotPassword).finish()
-                    }
-                } else if (resCode == "00003") {
-                    error("An error has occurred, please try again in some minutes")
-                }
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        } else {
-            // Display an error message if the network request failed
-            println("Network request failed")
-        }
+        TODO() //MAKE REQUEST TO RECOVERY PASSWORD
     }
 
     private fun error(message: String) {

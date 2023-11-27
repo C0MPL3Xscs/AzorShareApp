@@ -10,12 +10,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.azorshareapp.activities.ForgotPassword
 import com.example.azorshareapp.R
-import com.example.azorshareapp.services.network.NetworkTask
-import com.example.azorshareapp.services.network.NetworkTaskCallback
 import org.json.JSONException
 import org.json.JSONObject
 
-class UsernameRecovery : Fragment(), NetworkTaskCallback {
+class UsernameRecovery : Fragment(){
 
     private var enteredUsername: String = ""
     private lateinit var progressDialog: ProgressDialog
@@ -53,46 +51,14 @@ class UsernameRecovery : Fragment(), NetworkTaskCallback {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
-                val networkTask = NetworkTask(this, json.toString(), "signup/validateUsername")
-                networkTask.execute()
+
+                TODO() //MAKE REQUEST TO VALIDATE USERNAME
+
+                TODO() //MAKE REQUEST TO SEND OTP IF USERNAME EXISTS
             }
         }
 
         return view
-    }
-
-    // Callback function for the network request
-    override fun onNetworkTaskComplete(result: Boolean, jsonResponse: String) {
-        // Close loading animation
-        progressDialog.dismiss()
-        if (result) {
-            try {
-                val jsonObject = JSONObject(jsonResponse)
-                val header = jsonObject.getJSONObject("header")
-                val resCode = header.getString("resCode")
-                if (resCode == "00000") {
-                    // Username doesn't exist, show an error message
-                    if (activity is ForgotPassword) {
-                        error("Username does not exist")
-                    }
-                } else if (resCode == "00005") {
-                    // Send an OTP email to the user
-                    val json2 = JSONObject()
-                    json2.put("username", enteredUsername)
-                    val opt = NetworkTask(this, json2.toString(), "sendOTP")
-                    opt.execute()
-                    // Change the view to the OTP screen
-                    if (activity is ForgotPassword) {
-                        (activity as ForgotPassword).otpView()
-                    }
-                }
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        } else {
-            // Show an error message
-            println("Network request failed")
-        }
     }
 
     private fun error(message: String) {

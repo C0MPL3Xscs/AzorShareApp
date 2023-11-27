@@ -10,12 +10,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.azorshareapp.R
 import com.example.azorshareapp.activities.SignUp
-import com.example.azorshareapp.services.network.NetworkTask
-import com.example.azorshareapp.services.network.NetworkTaskCallback
 import org.json.JSONException
 import org.json.JSONObject
 
-class OTP : Fragment(), NetworkTaskCallback {
+class OTP : Fragment(){
 
     private lateinit var progressDialog: ProgressDialog
     private var tries = 0
@@ -61,40 +59,11 @@ class OTP : Fragment(), NetworkTaskCallback {
                 progressDialog.setCancelable(false)
                 progressDialog.show()
 
-                // Send a network request to validate the OTP code
-                val networkTask = NetworkTask(this@OTP, json.toString(), "validateOTP")
-                networkTask.execute()
+                TODO() //MAKE REQUEST TO VALIDADE OTP
             }
         }
 
         return view
-    }
-
-    override fun onNetworkTaskComplete(result: Boolean, jsonResponse: String) {
-        // Close loading animation
-        progressDialog.dismiss()
-        if (result) {
-            try {
-                val jsonObject = JSONObject(jsonResponse)
-                val header = jsonObject.getJSONObject("header")
-                val resCode = header.getString("resCode")
-
-                when (resCode) {
-                    "00000" -> {
-                        // If the OTP is valid, finish the sign-up process
-                        if (activity is SignUp) {
-                            (activity as SignUp).finish()
-                        }
-                    }
-
-                    "00003" -> error("Invalid Code")
-                }
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        } else {
-            println("Network request failed")
-        }
     }
 
     private fun error(message: String) {
