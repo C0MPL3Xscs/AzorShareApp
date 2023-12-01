@@ -121,6 +121,7 @@ class SignUp : AppCompatActivity(){
         } catch (e: JSONException) {
             throw RuntimeException(e)
         }
+
         TODO() //MAKE REQUEST TO SEND OTP
     }
 }

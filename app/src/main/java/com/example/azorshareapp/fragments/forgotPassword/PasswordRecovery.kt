@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.azorshareapp.R
+import com.example.azorshareapp.activities.ForgotPassword
+import com.example.azorshareapp.services.network.REQUESTS
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -53,14 +55,45 @@ class PasswordRecovery : Fragment(){
 
     // Validate the password with the server
     private fun validated() {
-        val json = JSONObject()
-        try {
-            json.put("password", finalPassword)
-        } catch (e: JSONException) {
-            e.printStackTrace()
+
+        val request = REQUESTS()
+
+        var email = ""
+
+        if (activity is ForgotPassword) {
+            email = (activity as ForgotPassword).getEmail()
         }
 
-        TODO() //MAKE REQUEST TO RECOVERY PASSWORD
+        request.changePassword(email, finalPassword, object : REQUESTS.LoginCallback {
+            override fun onResult(response: String): Boolean {
+                val jsonString = response
+                val jsonObject = JSONObject(jsonString)
+                if (jsonObject.getString("rescode") == "0001"){
+                    progressDialog.dismiss()
+                    activity?.finish()
+                }else{
+                    progressDialog.dismiss()
+                    error("Ocorreu um erro, tente novamente mais tarde")
+                }
+                return jsonObject.getString("rescode") == "0001"
+            }
+            override fun onError(response: String): Boolean {
+                try {
+                    val jsonObject = JSONObject(response)
+                    if (jsonObject.getString("rescode") == "0001"){
+                        progressDialog.dismiss()
+                        if (activity is ForgotPassword) {
+                            (activity as ForgotPassword).changePassword()
+                        }
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    error("Ocorreu um erro, tente novamente mais tarde")
+                    return false
+                }
+                return false
+            }
+        })
     }
 
     private fun error(message: String) {

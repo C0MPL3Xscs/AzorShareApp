@@ -31,20 +31,20 @@
         android:ems="10"
         android:inputType="textPassword"
         android:background="@drawable/round_input"
-        app:layout_constraintEnd_toEndOf="@+id/Username"
+        app:layout_constraintEnd_toEndOf="@+id/Email"
         app:layout_constraintHorizontal_bias="0.218"
-        app:layout_constraintStart_toStartOf="@+id/Username"
-        app:layout_constraintTop_toBottomOf="@+id/Username"
+        app:layout_constraintStart_toStartOf="@+id/Email"
+        app:layout_constraintTop_toBottomOf="@+id/Email"
         android:hint="Password"/>
 
     <EditText
-        android:id="@+id/Username"
+        android:id="@+id/Email"
         android:layout_width="327dp"
         android:layout_height="50dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/round_input"
         android:ems="10"
-        android:hint="Utilizador"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -124,7 +124,7 @@
         android:layout_marginStart="8dp"
         android:text=""
         android:textColor="#FF0000"
-        app:layout_constraintBottom_toTopOf="@+id/Username"
-        app:layout_constraintStart_toStartOf="@+id/Username" />
+        app:layout_constraintBottom_toTopOf="@+id/Email"
+        app:layout_constraintStart_toStartOf="@+id/Email" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

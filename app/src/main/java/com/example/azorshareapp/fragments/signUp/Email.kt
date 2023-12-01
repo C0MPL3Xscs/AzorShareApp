@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.example.azorshareapp.R
 import com.example.azorshareapp.activities.SignUp
 import com.example.azorshareapp.utils.RegexUtils
-import org.json.JSONException
 import org.json.JSONObject
 
 class Email : Fragment(){
@@ -34,7 +33,7 @@ class Email : Fragment(){
         // Set up the click listener for the button
         view.findViewById<View>(R.id.button3).setOnClickListener {
             // Get the email entered by the user
-            val editText = requireActivity().findViewById<EditText>(R.id.UsernameField)
+            val editText = requireActivity().findViewById<EditText>(R.id.EmailField)
             val email = editText.text.toString()
 
             // Store the email
@@ -69,7 +68,7 @@ class Email : Fragment(){
     }
 
     private fun error(message: String) {
-        val editText = requireActivity().findViewById<EditText>(R.id.UsernameField)
+        val editText = requireActivity().findViewById<EditText>(R.id.EmailField)
         val textView = requireActivity().findViewById<TextView>(R.id.EmailError)
 
         editText.setBackgroundResource(R.drawable.wrong_input)

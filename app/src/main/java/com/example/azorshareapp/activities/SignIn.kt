@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.azorshareapp.services.network.REQUESTS
 import com.example.azorshareapp.R
 import com.google.gson.Gson
+import org.json.JSONException
 import org.json.JSONObject
 
 
@@ -18,7 +19,7 @@ class SignIn : AppCompatActivity() {
 
     // Variables
     private var passwordShown = false
-    private lateinit var usernameField: EditText
+    private lateinit var EmailField: EditText
     private lateinit var passwordField: EditText
     private lateinit var progressDialog: ProgressDialog
 
@@ -28,7 +29,7 @@ class SignIn : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in)
 
         // Initialize variables with corresponding views
-        usernameField = findViewById(R.id.Username)
+        EmailField = findViewById(R.id.Email)
         passwordField = findViewById(R.id.Password)
 
         // Initialize progressDialog
@@ -47,10 +48,10 @@ class SignIn : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.button).setOnClickListener {
-            val username = usernameField.text.toString()
+            val email = EmailField.text.toString()
             val password = passwordField.text.toString()
-            if (username.isEmpty() || password.isEmpty()) {
-                error("Username or password can't be empty")
+            if (email.isEmpty() || password.isEmpty()) {
+                error("Email ou password não podem estar vazios")
             } else {
                 // Send login request to server
                 login()
@@ -102,7 +103,7 @@ class SignIn : AppCompatActivity() {
         progressDialog.setCancelable(false)
         progressDialog.show()
 
-        val username = usernameField.text.toString()
+        val username = EmailField.text.toString()
         val password = passwordField.text.toString()
 
         //LOGIN REQUEST
@@ -110,18 +111,36 @@ class SignIn : AppCompatActivity() {
         progressDialog.show()
 
         request.login(username, password, object : REQUESTS.LoginCallback {
-            override fun onResult(response: String) {
+            override fun onResult(response: String): Boolean {
                 val jsonString = response
                 val jsonObject = JSONObject(jsonString)
                 progressDialog.dismiss()
                 if (jsonObject.getString("rescode") == "0001") {
                     startApp()
+                    return true
                 } else {
                     error("Password ou nome de utilizador invalidos")
                 }
+                return false
+            }
+            override fun onError(response: String): Boolean {
+                try {
+                    val jsonObject = JSONObject(response)
+                    progressDialog.dismiss()
+                    if (jsonObject.getString("rescode") == "0001") {
+                        startApp()
+                        return true
+                    } else {
+                        error("Password or username is invalid")
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    progressDialog.dismiss()
+                    error("Error, try again later")
+                }
+                return false
             }
         })
-
     }
 
 
@@ -133,7 +152,7 @@ class SignIn : AppCompatActivity() {
     }
 
     private fun error(message: String) {
-        usernameField.setBackgroundResource(R.drawable.wrong_input)
+        EmailField.setBackgroundResource(R.drawable.wrong_input)
         passwordField.setBackgroundResource(R.drawable.wrong_input)
         val errorMessage = findViewById<TextView>(R.id.ErrorMessage)
         errorMessage.text = message

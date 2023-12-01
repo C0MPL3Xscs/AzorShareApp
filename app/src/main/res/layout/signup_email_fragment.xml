@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="@+id/imageView4" />
 
     <EditText
-        android:id="@+id/UsernameField"
+        android:id="@+id/EmailField"
         android:layout_width="327dp"
         android:layout_height="50dp"
         android:layout_marginTop="68dp"
@@ -60,7 +60,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UsernameField"
+        app:layout_constraintTop_toBottomOf="@+id/EmailField"
         app:layout_constraintVertical_bias="0.826" />
 
     <TextView
@@ -70,7 +70,7 @@
         android:layout_marginStart="12dp"
         android:text=""
         android:textColor="#FF0000"
-        app:layout_constraintBottom_toTopOf="@+id/UsernameField"
-        app:layout_constraintStart_toStartOf="@+id/UsernameField" />
+        app:layout_constraintBottom_toTopOf="@+id/EmailField"
+        app:layout_constraintStart_toStartOf="@+id/EmailField" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

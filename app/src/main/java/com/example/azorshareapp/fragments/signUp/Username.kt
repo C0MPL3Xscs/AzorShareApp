@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.azorshareapp.R
 import com.example.azorshareapp.activities.SignUp
-import org.json.JSONException
 import org.json.JSONObject
 
 class Username : Fragment(){
@@ -33,7 +32,7 @@ class Username : Fragment(){
         // Set an onClickListener for the button in the layout
         view.findViewById<View>(R.id.button5).setOnClickListener {
             // Get references to the UI elements for username input and error message display
-            val editText = requireActivity().findViewById<EditText>(R.id.Username)
+            val editText = requireActivity().findViewById<EditText>(R.id.Email)
             val errorTextView = requireActivity().findViewById<TextView>(R.id.UsernameError)
 
             // Get the username input from the user
@@ -70,7 +69,7 @@ class Username : Fragment(){
     }
 
     private fun error(message: String) {
-        val editText = requireActivity().findViewById<EditText>(R.id.Username)
+        val editText = requireActivity().findViewById<EditText>(R.id.Email)
         val textView = requireActivity().findViewById<TextView>(R.id.UsernameError)
 
         editText.setBackgroundResource(R.drawable.wrong_input)
