@@ -9,8 +9,11 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.azorshareapp.R
+import com.example.azorshareapp.activities.ForgotPassword
 import com.example.azorshareapp.activities.SignUp
+import com.example.azorshareapp.services.network.REQUESTS
 import com.example.azorshareapp.utils.RegexUtils
+import org.json.JSONException
 import org.json.JSONObject
 
 class Email : Fragment(){
@@ -39,11 +42,6 @@ class Email : Fragment(){
             // Store the email
             finalEmail = email
 
-            // Create a JSON object with the email
-            val json = JSONObject().apply {
-                put("email", email)
-            }
-
             // Validate the email
             if (email.isEmpty() || !RegexUtils.isEmailValid(email)) {
                 // Display an error message if the email is invalid
@@ -53,7 +51,28 @@ class Email : Fragment(){
                 progressDialog.setCancelable(false)
                 progressDialog.show()
 
-                TODO() // MAKE REQUEST TO VALIDADE EMAIL
+                val request = REQUESTS()
+
+                request.validadeemail(email, object : REQUESTS.LoginCallback {
+                    override fun onResult(response: String): Boolean {
+                        val jsonString = response
+                        val jsonObject = JSONObject(jsonString)
+                        progressDialog.dismiss()
+                        if (jsonObject.getString("rescode") == "0001") {
+                            error("Email já esta registado a uma conta.")
+                        } else {
+                            if (activity is SignUp) {
+                                (activity as SignUp).switchFragment("Username",email)
+                            }
+                        }
+                        return false
+                    }
+                    override fun onError(response: String): Boolean {
+                        progressDialog.dismiss()
+                        error("Erro, tente novamente mais tarde")
+                        return false
+                    }
+                })
             }
         }
 

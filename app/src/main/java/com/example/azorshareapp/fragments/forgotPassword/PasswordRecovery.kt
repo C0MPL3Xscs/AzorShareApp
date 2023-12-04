@@ -78,19 +78,7 @@ class PasswordRecovery : Fragment(){
                 return jsonObject.getString("rescode") == "0001"
             }
             override fun onError(response: String): Boolean {
-                try {
-                    val jsonObject = JSONObject(response)
-                    if (jsonObject.getString("rescode") == "0001"){
-                        progressDialog.dismiss()
-                        if (activity is ForgotPassword) {
-                            (activity as ForgotPassword).changePassword()
-                        }
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    error("Ocorreu um erro, tente novamente mais tarde")
-                    return false
-                }
+                error("Ocorreu um erro, tente novamente mais tarde")
                 return false
             }
         })

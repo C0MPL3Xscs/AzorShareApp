@@ -9,7 +9,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.azorshareapp.R
+import com.example.azorshareapp.activities.ForgotPassword
 import com.example.azorshareapp.activities.SignUp
+import com.example.azorshareapp.services.network.REQUESTS
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -47,11 +49,6 @@ class OTP : Fragment(){
             val editText = requireActivity().findViewById<EditText>(R.id.CodeField)
             val code = editText.text.toString()
 
-            // Create JSON object with the entered code
-            val json = JSONObject().apply {
-                put("otp", code)
-            }
-
             if (code.isEmpty()) {
                 error("Please insert the code to continue")
             } else {
@@ -59,12 +56,46 @@ class OTP : Fragment(){
                 progressDialog.setCancelable(false)
                 progressDialog.show()
 
-                TODO() //MAKE REQUEST TO VALIDADE OTP
+                val request = REQUESTS()
+
+                var email = ""
+
+                if (activity is SignUp) {
+                    email = (activity as SignUp).getEmail()
+                }
+
+                request.validateOtp(email, code, object : REQUESTS.LoginCallback {
+                    override fun onResult(response: String): Boolean {
+                        val jsonString = response
+                        val jsonObject = JSONObject(jsonString)
+                        if (jsonObject.getString("rescode") == "0001"){
+                            progressDialog.dismiss()
+                            if (activity is SignUp) {
+                                if ((activity as SignUp).createAccount()) {
+                                    activity?.finish()
+                                } else {
+                                    error("Ocorreu um erro, tente novamente mais tarde")
+                                }
+                            }
+                            progressDialog.dismiss()
+                        }else{
+                            error("O codigo não corresponde")
+                            progressDialog.dismiss()
+                        }
+                        return jsonObject.getString("rescode") == "0001"
+                    }
+                    override fun onError(response: String): Boolean {
+                        error("Ocorreu um erro, tente novamente mais tarde")
+                        return false
+                    }
+                })
             }
         }
 
         return view
     }
+
+
 
     private fun error(message: String) {
         val editText = requireActivity().findViewById<EditText>(R.id.CodeField)

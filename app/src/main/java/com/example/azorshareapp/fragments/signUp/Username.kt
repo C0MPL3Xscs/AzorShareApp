@@ -53,7 +53,10 @@ class Username : Fragment(){
 
                 finalUsername = username
 
-                TODO() //MAKE REQUEST TO VALIDADE USERNAME
+                if (activity is SignUp) {
+                    (activity as SignUp).switchFragment("Password",username)
+                }
+                progressDialog.dismiss()
             }
         }
 

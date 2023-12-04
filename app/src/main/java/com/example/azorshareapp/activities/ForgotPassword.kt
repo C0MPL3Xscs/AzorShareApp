@@ -17,13 +17,12 @@ class ForgotPassword : AppCompatActivity(){
 
     private var email = ""
 
-    // onCreate method
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Initialize fragment manager and transaction
+        // Inicializa o fragment manager e transaction
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
 
-        // Call superclass method and set the layout for this activity
+        // Chama a superclasse e define o layout para esta activity
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
 

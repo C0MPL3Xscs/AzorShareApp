@@ -67,7 +67,7 @@ class Password : Fragment() {
     // Move to the next fragment
     private fun validated() {
         if (activity is SignUp) {
-            (activity as SignUp).createAccount(finalPassword)
+            (activity as SignUp).switchFragment("OTP",finalPassword)
         }
         // Close loading animation
         progressDialog.dismiss()

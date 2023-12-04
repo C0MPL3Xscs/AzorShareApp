@@ -32,13 +32,11 @@ class REQUESTS {
                 connection.doOutput = true
 
                 val responseCode = connection.responseCode
-                println("Login request response code: $responseCode")
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // Read the response
                     val reader = BufferedReader(InputStreamReader(connection.inputStream))
                     val response = reader.use { it.readText() }
-                    println("Login request response: $response")
 
                     // Return the result via callback
                     withContext(Dispatchers.Main) {
@@ -73,13 +71,11 @@ class REQUESTS {
                 connection.doOutput = true
 
                 val responseCode = connection.responseCode
-                println("Login request response code: $responseCode")
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // Read the response
                     val reader = BufferedReader(InputStreamReader(connection.inputStream))
                     val response = reader.use { it.readText() }
-                    println("Login request response: $response")
 
                     // Return the result via callback
                     withContext(Dispatchers.Main) {
@@ -113,13 +109,11 @@ class REQUESTS {
                 connection.doOutput = true
 
                 val responseCode = connection.responseCode
-                println("Login request response code: $responseCode")
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // Read the response
                     val reader = BufferedReader(InputStreamReader(connection.inputStream))
                     val response = reader.use { it.readText() }
-                    println("Login request response: $response")
 
                     // Return the result via callback
                     withContext(Dispatchers.Main) {
@@ -153,13 +147,11 @@ class REQUESTS {
                 connection.doOutput = true
 
                 val responseCode = connection.responseCode
-                println("Login request response code: $responseCode")
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // Read the response
                     val reader = BufferedReader(InputStreamReader(connection.inputStream))
                     val response = reader.use { it.readText() }
-                    println("Login request response: $response")
 
                     // Return the result via callback
                     withContext(Dispatchers.Main) {
@@ -193,13 +185,11 @@ class REQUESTS {
                 connection.doOutput = true
 
                 val responseCode = connection.responseCode
-                println("Login request response code: $responseCode")
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // Read the response
                     val reader = BufferedReader(InputStreamReader(connection.inputStream))
                     val response = reader.use { it.readText() }
-                    println("Login request response: $response")
 
                     // Return the result via callback
                     withContext(Dispatchers.Main) {
@@ -224,28 +214,41 @@ class REQUESTS {
 
 
     // Function for creating an account request
-    fun createAccount(username: String, email: String, password: String) {
-        val url = URL(domain + "create_account/")
-        val connection = url.openConnection() as HttpURLConnection
+    fun createAccount(username: String, email: String, password: String, callback: LoginCallback) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val url = URL(domain + "createaccount/?username=$username&email=$email&password=$password")
+                val connection = url.openConnection() as HttpURLConnection
 
-        connection.requestMethod = "POST"
-        connection.doOutput = true
+                connection.requestMethod = "POST"
+                connection.doOutput = true
 
-        val postData = "username=$username&email=$email&password=$password"
-        val postDataBytes = postData.toByteArray(StandardCharsets.UTF_8)
+                val responseCode = connection.responseCode
 
-        connection.outputStream.use { os ->
-            os.write(postDataBytes)
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Read the response
+                    val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                    val response = reader.use { it.readText() }
+
+                    // Return the result via callback
+                    withContext(Dispatchers.Main) {
+                        callback.onResult(response)
+                    }
+                } else {
+                    // Handle non-OK response codes
+                    withContext(Dispatchers.Main) {
+                        callback.onError("HTTP error: $responseCode")
+                    }
+                }
+
+                connection.disconnect()
+
+            } catch (e: Exception) {
+                // Handle any other exceptions
+                withContext(Dispatchers.Main) {
+                    callback.onError("An error occurred: ${e.message}")
+                }
+            }
         }
-
-        val responseCode = connection.responseCode
-        println("Create Account request response code: $responseCode")
-
-        // Read the response
-        val reader = BufferedReader(InputStreamReader(connection.inputStream))
-        val response = reader.use { it.readText() }
-        println("Create Account request response: $response")
-
-        connection.disconnect()
     }
 }

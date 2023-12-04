@@ -8,9 +8,9 @@ import com.example.azorshareapp.fragments.signUp.Email
 import com.example.azorshareapp.fragments.signUp.OTP
 import com.example.azorshareapp.fragments.signUp.Password
 import com.example.azorshareapp.fragments.signUp.Username
-import com.example.azorshareapp.models.AccountModel
 import com.example.azorshareapp.utils.RegexUtils
 import androidx.fragment.app.FragmentManager
+import com.example.azorshareapp.services.network.REQUESTS
 import com.google.gson.Gson
 import org.json.JSONException
 import org.json.JSONObject
@@ -22,6 +22,7 @@ class SignUp : AppCompatActivity(){
     private lateinit var email: String
     private lateinit var username: String
     private lateinit var password: String
+    val request = REQUESTS()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,17 +57,33 @@ class SignUp : AppCompatActivity(){
 
     // Create a new account
     @Throws(JSONException::class)
-    fun createAccount(password: String) {
-        val acc = AccountModel(email, username, password)
-        val json = json(acc)
-        val json2 = JSONObject()
-        json2.put("username", username)
+    fun createAccount() : Boolean {
 
-        TODO() //MAKE REQUEST TO CREATE ACCOUNT
+        var success = false
 
-        TODO() // MAKE REQUEST TO SEND OTP
+        //request criar conta
+        request.createAccount(this.username,this.email,this.password,object : REQUESTS.LoginCallback {
+            override fun onResult(response: String): Boolean {
+                val jsonString = response
+                val jsonObject = JSONObject(jsonString)
+                if (jsonObject.getString("rescode") == "0001") {
+                    finish()
+                    success = true
+                    return true
+                }
+                return false
+            }
+            override fun onError(response: String): Boolean {
+                return false
+            }
+        })
 
-        switchFragment("OTP", password)
+        return success
+
+    }
+
+    fun getEmail(): String {
+        return this.email;
     }
 
     // Finish the activity
@@ -108,20 +125,22 @@ class SignUp : AppCompatActivity(){
             "OTP" -> {
                 val otpFragment = OTP()
                 fragmentTransaction.replace(R.id.container, otpFragment)
+                password = input
+                sendOTP();
                 fragmentTransaction.commit()
-                this.password = input
             }
         }
     }
 
     fun sendOTP() {
-        val json2 = JSONObject()
-        try {
-            json2.put("username", username)
-        } catch (e: JSONException) {
-            throw RuntimeException(e)
-        }
 
-        TODO() //MAKE REQUEST TO SEND OTP
+        request.sendOtp(this.email, object : REQUESTS.LoginCallback {
+            override fun onResult(response: String): Boolean {
+                return true
+            }
+            override fun onError(response: String): Boolean {
+                return true
+            }
+        })
     }
 }
