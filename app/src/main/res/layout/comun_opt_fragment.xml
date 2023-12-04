@@ -64,7 +64,7 @@
         android:layout_width="272dp"
         android:layout_height="45dp"
         android:background="#0000"
-        android:text="Clique aqui para reenviar codigo"
+        android:text="Reenviar código"
         android:textColor="@color/white"
         android:textSize="11dp"
         app:layout_constraintEnd_toEndOf="@+id/FPCbt"

@@ -10,9 +10,8 @@
     <FrameLayout
         android:id="@+id/Container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottomAppBar">
-    </FrameLayout>
+        android:layout_height="745dp"
+        android:layout_above="@+id/bottomAppBar"></FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:layout_width="match_parent"

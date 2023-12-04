@@ -35,7 +35,7 @@
         app:layout_constraintHorizontal_bias="0.218"
         app:layout_constraintStart_toStartOf="@+id/Email"
         app:layout_constraintTop_toBottomOf="@+id/Email"
-        android:hint="Password"/>
+        android:hint="Palavra-passe"/>
 
     <EditText
         android:id="@+id/Email"
