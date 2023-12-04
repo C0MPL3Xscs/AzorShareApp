@@ -25,47 +25,36 @@ class SignUp : AppCompatActivity(){
     val request = REQUESTS()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // Chama a superclasse e define o layout para esta activity
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        // Hide the action bar
+        // Desativa a actionbar
         supportActionBar?.hide()
 
-        // Initialize the fragment manager
+        // Inicializa o fragment manager
         fragmentManager = supportFragmentManager
 
-        // Add the email fragment to the container
+        // Adiciona o fragmento do email ao contentor
         val fragmentTransaction = fragmentManager.beginTransaction()
         val emailFragment = Email()
         fragmentTransaction.add(R.id.container, emailFragment)
         fragmentTransaction.commit()
     }
 
-    // Validate the user input
-    fun validate(email: String, username: String, password: String, passwordConfirm: String): Boolean {
-        if (password != passwordConfirm) {
-            return false
-        }
-        if (username.length > 20) {
-            return false
-        }
-        if (!RegexUtils.isEmailValid(email)) {
-            return false
-        }
-        return true
-    }
-
-    // Create a new account
+    // Cria uma conta
     @Throws(JSONException::class)
     fun createAccount() : Boolean {
 
         var success = false
 
-        //request criar conta
+        //request ao servidor para criar conta
         request.createAccount(this.username,this.email,this.password,object : REQUESTS.LoginCallback {
             override fun onResult(response: String): Boolean {
                 val jsonString = response
                 val jsonObject = JSONObject(jsonString)
+                //Caso tenha sido criada corretamente
                 if (jsonObject.getString("rescode") == "0001") {
                     finish()
                     success = true
@@ -82,11 +71,12 @@ class SignUp : AppCompatActivity(){
 
     }
 
+    //Retorna a variavel local email
     fun getEmail(): String {
         return this.email;
     }
 
-    // Finish the activity
+    // Termina a atividade
     override fun finish() {
         val intent = Intent(this, SignIn::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -94,13 +84,7 @@ class SignUp : AppCompatActivity(){
         finishAffinity()
     }
 
-    // Convert the object to JSON
-    private fun json(data: Any): String {
-        val gson = Gson()
-        return gson.toJson(data)
-    }
-
-    // Switch to the specified fragment
+    // Muda de fragmento
     fun switchFragment(fragmentName: String, input: String) {
         val fragmentTransaction = fragmentManager.beginTransaction()
 
@@ -132,6 +116,7 @@ class SignUp : AppCompatActivity(){
         }
     }
 
+    // Envia um OTP para o email que o utilizador inserir
     fun sendOTP() {
 
         request.sendOtp(this.email, object : REQUESTS.LoginCallback {

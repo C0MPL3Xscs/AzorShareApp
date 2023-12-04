@@ -24,13 +24,15 @@ class OTP : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        // Faz inflate do layout para este fragmento
         val view = inflater.inflate(R.layout.comun_opt_fragment, container, false)
 
-        // Create loading animation
+        // Cria a animação de carregamento
         progressDialog = ProgressDialog(requireActivity())
-        progressDialog.setMessage("Loading...")
+        progressDialog.setMessage("Carregamento...")
 
+        // Define listener para o botão "ResendEmail"
         view.findViewById<View>(R.id.ResendEmail).setOnClickListener {
             if (tries <= 3) {
                 // Resend OPT
@@ -39,20 +41,22 @@ class OTP : Fragment(){
                 }
                 tries++
             } else {
-                error("Too many requests, restart the app to try again")
+                error("Demasiados requests, reinicie a aplicação e tente novamente")
             }
         }
 
-        // Set the click listener for the button
+        // Define listener para o botão "proximo"
         view.findViewById<View>(R.id.FPCbt).setOnClickListener {
-            // Get the entered OTP code
+
+            // Guarda o codigo introduzido pelo utilizador
             val editText = requireActivity().findViewById<EditText>(R.id.CodeField)
             val code = editText.text.toString()
 
             if (code.isEmpty()) {
-                error("Please insert the code to continue")
+                error("Codigo não pode ser vazio")
             } else {
-                // Show loading animation
+
+                // Mostra animação de carregamento
                 progressDialog.setCancelable(false)
                 progressDialog.show()
 
@@ -64,10 +68,12 @@ class OTP : Fragment(){
                     email = (activity as SignUp).getEmail()
                 }
 
+                // Request para validar OTP com o servidor
                 request.validateOtp(email, code, object : REQUESTS.LoginCallback {
                     override fun onResult(response: String): Boolean {
                         val jsonString = response
                         val jsonObject = JSONObject(jsonString)
+                        // Caso o codigo introduzido esteja correto
                         if (jsonObject.getString("rescode") == "0001"){
                             progressDialog.dismiss()
                             if (activity is SignUp) {
@@ -96,7 +102,7 @@ class OTP : Fragment(){
     }
 
 
-
+    // Mostra/altera menssagem de erro
     private fun error(message: String) {
         val editText = requireActivity().findViewById<EditText>(R.id.CodeField)
         val textView = requireActivity().findViewById<TextView>(R.id.OTPError)

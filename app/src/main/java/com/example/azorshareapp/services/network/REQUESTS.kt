@@ -21,7 +21,7 @@ class REQUESTS {
         fun onError(response: String): Boolean
     }
 
-    // Function for login request
+    // Request para login
     fun login(email: String, password: String, callback: LoginCallback) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -60,7 +60,7 @@ class REQUESTS {
         }
     }
 
-    // Function for sending OTP request
+    // Request para enviar OTP
     fun sendOtp(email: String, callback: LoginCallback) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -98,7 +98,7 @@ class REQUESTS {
         }
     }
 
-    // Function for validating OTP request
+    // Request para validar OTP
     fun validateOtp(email: String, otp: String, callback: LoginCallback) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -136,7 +136,7 @@ class REQUESTS {
         }
     }
 
-    // Function for sending OTP request
+    // Request para alterar palavra-passe
     fun changePassword(email: String,password: String, callback: LoginCallback) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -174,7 +174,7 @@ class REQUESTS {
         }
     }
 
-    // Function for validating email request
+    // Request para validar email
     fun validadeemail(email: String, callback: LoginCallback) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
@@ -213,7 +213,7 @@ class REQUESTS {
     }
 
 
-    // Function for creating an account request
+    // Request para criar conta
     fun createAccount(username: String, email: String, password: String, callback: LoginCallback) {
         GlobalScope.launch(Dispatchers.IO) {
             try {

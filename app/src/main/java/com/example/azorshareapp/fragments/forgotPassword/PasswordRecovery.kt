@@ -23,38 +23,43 @@ class PasswordRecovery : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        // Faz inflate do layout para este fragmento
         val view = inflater.inflate(R.layout.forgot_password_password_fragment, container, false)
-        // Create loading animation
+
+        // Cria a animação de carregamento
         progressDialog = ProgressDialog(activity)
-        progressDialog.setMessage("Loading...")
-        // Set up click listener for password recovery button
+        progressDialog.setMessage("Carregando...")
+
+        // Define listener para o botão "restaurar"
         view.findViewById<View>(R.id.FPPbt).setOnClickListener {
-            // Get the password from the input field
+
+            // Guarda a palavra-passe introduzida pelo utilizador
             val editText = activity?.findViewById<EditText>(R.id.PasswordField)
             val password = editText?.text.toString()
 
-            // Check if the password is empty
+            // Valida a palavra-passe
             if (password.isNullOrEmpty()) {
-                error("Password can not be empty")
+                error("palavra-passe não pode ser vazia")
             } else if (password.length < 8) {
-                // Show error message
-                error("Password should be at least 8 characters long")
+                error("palavra-passe deve ter pelo menos 8 caracteres")
             } else {
-                // Show loading animation
+
+                // Mostra animação carregamento
                 progressDialog.setCancelable(false)
                 progressDialog.show()
-                // Store the password and proceed to validate it
+
+                // Guarda e altera a palavra-passe
                 finalPassword = password
-                validated()
+                changePassword()
             }
         }
 
         return view
     }
 
-    // Validate the password with the server
-    private fun validated() {
+    // Faz um request para alterar a palavra-passe
+    private fun changePassword() {
 
         val request = REQUESTS()
 
@@ -84,6 +89,7 @@ class PasswordRecovery : Fragment(){
         })
     }
 
+    // Mostra/altera menssagem de erro
     private fun error(message: String) {
         val editText = activity?.findViewById<EditText>(R.id.PasswordField)
         val textView = activity?.findViewById<TextView>(R.id.PasswordError)

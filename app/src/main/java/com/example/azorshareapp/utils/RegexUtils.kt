@@ -8,4 +8,4 @@ object RegexUtils {
         val pat = Pattern.compile(ConstantsUtils.REGEXEMAIL)
         return email?.let { pat.matcher(it).matches() } ?: false
         }
-        }
+}

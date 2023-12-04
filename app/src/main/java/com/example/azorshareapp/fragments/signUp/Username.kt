@@ -14,7 +14,6 @@ import org.json.JSONObject
 
 class Username : Fragment(){
 
-    // Declare instance variables
     private lateinit var finalUsername: String
     private lateinit var progressDialog: ProgressDialog
 
@@ -22,30 +21,24 @@ class Username : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        // Faz inflate do layout para este fragmento
         val view = inflater.inflate(R.layout.signup_username_fragment, container, false)
 
-        // Create loading animation
+        // Cria a animação de carregamento
         progressDialog = ProgressDialog(requireActivity())
         progressDialog.setMessage("Loading...")
 
-        // Set an onClickListener for the button in the layout
+        // Define listener para o botão "Proximo"
         view.findViewById<View>(R.id.button5).setOnClickListener {
+
             // Get references to the UI elements for username input and error message display
             val editText = requireActivity().findViewById<EditText>(R.id.Email)
-            val errorTextView = requireActivity().findViewById<TextView>(R.id.UsernameError)
-
-            // Get the username input from the user
             val username = editText.text.toString()
-
-            // Create a JSON object to hold the username input
-            val json = JSONObject().apply {
-                put("username", username)
-            }
 
             // If the username input is empty, display an error message
             if (username.isEmpty()) {
-                error("Username cannot be empty")
+                error("Nome de utilizador não pode ser vazio")
             } else {
                 // Show loading animation
                 progressDialog.setCancelable(false)
@@ -53,6 +46,7 @@ class Username : Fragment(){
 
                 finalUsername = username
 
+                // Passa para o proximo fragment
                 if (activity is SignUp) {
                     (activity as SignUp).switchFragment("Password",username)
                 }
@@ -60,17 +54,10 @@ class Username : Fragment(){
             }
         }
 
-        // Return the view for this fragment
         return view
     }
 
-    // Method to switch to the next fragment when the current one is complete
-    private fun changeFragment(fragment: String) {
-        if (activity is SignUp) {
-            (activity as SignUp).switchFragment(fragment, finalUsername)
-        }
-    }
-
+    // Mostra/altera menssagem de erro
     private fun error(message: String) {
         val editText = requireActivity().findViewById<EditText>(R.id.Email)
         val textView = requireActivity().findViewById<TextView>(R.id.UsernameError)

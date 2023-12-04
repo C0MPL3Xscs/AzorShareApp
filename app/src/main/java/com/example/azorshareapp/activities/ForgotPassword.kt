@@ -26,28 +26,16 @@ class ForgotPassword : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
 
-        // Hide the action bar if it exists
+        // Desativa a actionbar
         supportActionBar?.hide()
 
-        // Initialize and add UsernameRecovery fragment
+        // Inicializa e adiciona o usernameFragment
         val usernameFragment = EmailRecovery()
         fragmentTransaction.add(R.id.container, usernameFragment)
         fragmentTransaction.commit()
     }
 
-    // Method to switch to a new fragment
-    fun switchFragment(fragment: String) {
-        // Initialize fragment manager and transaction
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-
-        // Create new UsernameRecovery fragment and replace the current one with it
-        val usernameFragment = EmailRecovery()
-        fragmentTransaction.replace(R.id.container, usernameFragment)
-        fragmentTransaction.commit()
-    }
-
-    // Method to show the OTPVerify fragment
+    // Metodo para mostrar o fragmento OTP
     fun otpView() {
         // Initialize fragment manager and transaction
         val fragmentManager: FragmentManager = supportFragmentManager
@@ -59,7 +47,7 @@ class ForgotPassword : AppCompatActivity(){
         fragmentTransaction.commit()
     }
 
-    // Method to show the PasswordRecovery fragment
+    // Metodo para mostrar o fragmento recuperar palavrapasse
     fun changePassword() {
         // Initialize fragment manager and transaction
         val fragmentManager: FragmentManager = supportFragmentManager
@@ -71,7 +59,7 @@ class ForgotPassword : AppCompatActivity(){
         fragmentTransaction.commit()
     }
 
-    // Override the default finish method to prevent it from being called accidentally
+    // Metodo de finalização
     override fun finish() {
         val intent = Intent(this, SignIn::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -79,15 +67,17 @@ class ForgotPassword : AppCompatActivity(){
         finishAffinity()
     }
 
+    // Guarda o valor do email na variavel local
     fun setEmail(email: String) {
         this.email = email
     }
 
+    // Retorna o valor da variavel local email
     fun getEmail(): String {
         return this.email
     }
 
-
+    // Envia um OTP para o email que o utilizador inserir
     fun sendOTP() {
 
         val request = REQUESTS()

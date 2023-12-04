@@ -17,46 +17,41 @@ class Password : Fragment() {
     private lateinit var finalPassword: String
     private lateinit var progressDialog: ProgressDialog
 
-    // Called when the fragment's view is created
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        // Faz inflate do layout para este fragmento
         val view = inflater.inflate(R.layout.signup_password_fragment, container, false)
 
-        // Create loading animation
+        // Cria a animação de carregamento
         progressDialog = ProgressDialog(requireActivity())
-        progressDialog.setMessage("Loading...")
+        progressDialog.setMessage("Carregando...")
 
-        // Set up the button click listener
+        // Define listener para o botão "Proximo"
         view.findViewById<View>(R.id.button3).setOnClickListener {
-            // Get the password and confirm password fields
+
+            // Guarda as palavras-passe introduzidas pelo utilizador
             val editText = requireActivity().findViewById<EditText>(R.id.PasswordOne)
             val editText1 = requireActivity().findViewById<EditText>(R.id.PasswordComfirm)
-
-            // Get the values of the password fields
             val password = editText.text.toString()
             val passwordConfirmed = editText1.text.toString()
 
-            // Check if the password fields are empty or if they don't match
+            // Valida as palavras-passe
             when {
-                password.isEmpty() -> error("Password can't be empty")
-                password != passwordConfirmed -> error("Passwords do not match")
-                password.length < 8 -> error("Password should be at least 8 characters long")
+                password.isEmpty() -> error("Palavra-passe não pode ser vazia")
+                password != passwordConfirmed -> error("As palavras-passe não coincidem")
+                password.length < 8 -> error("A palavra-passe deve ter pelo menos 8 caracteres")
                 else -> {
-                    // Show loading animation
+
+                    // Mostra animação de carregamento
                     progressDialog.setCancelable(false)
                     progressDialog.show()
 
-                    // Save the password and move to the next fragment
+                    // Salva a palavra-passe e passa para o proximo fragmento
                     finalPassword = password
-
-                    try {
-                        validated()
-                    } catch (e: JSONException) {
-                        throw RuntimeException(e)
-                    }
+                    validated()
                 }
             }
         }
@@ -64,15 +59,16 @@ class Password : Fragment() {
         return view
     }
 
-    // Move to the next fragment
+    // Passa para o proximo fragmento
     private fun validated() {
         if (activity is SignUp) {
             (activity as SignUp).switchFragment("OTP",finalPassword)
         }
-        // Close loading animation
+        // Termina a animação
         progressDialog.dismiss()
     }
 
+    // Mostra/altera menssagem de erro
     private fun error(message: String) {
         val editText = requireActivity().findViewById<EditText>(R.id.PasswordOne)
         val editText1 = requireActivity().findViewById<EditText>(R.id.PasswordComfirm)

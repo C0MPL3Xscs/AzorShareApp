@@ -12,28 +12,29 @@ class Splash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Hide the action bar (if present)
+        // Desativa a actionbar
         supportActionBar?.hide()
 
-        // Set the activity layout
+        // Define o layout para o splashscreen
         setContentView(R.layout.activity_splash_screen)
 
-        // Call the Main method
+        // Chama o metodo principal
         main()
     }
 
-    // The Main method handles the delay and the start of the SignIn activity
+    // Metodo principal
     private fun main() {
-        // Create a new Handler object to delay the start of the next activity
+
+        // Cria um novo handler para atrazar o inicio da proxima atividade
         Handler().postDelayed({
-            // Create a new Intent object to start the SignIn activity
+            // Cria um novo intent para começar a activity SignIn
             val intent = Intent(this@Splash, SignIn::class.java)
 
-            // Start the SignIn activity
+            // Começa a atividade SignIn
             startActivity(intent)
 
-            // Finish the Splash activity so that it cannot be returned to
+            // Termina a atividade
             finish()
-        }, 3000) // Delay for 3 seconds (3000 milliseconds)
+        }, 3000) // Delay de 3 segundos (3000 milissegundos)
     }
 }

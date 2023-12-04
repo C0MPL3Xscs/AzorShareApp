@@ -18,7 +18,6 @@ import org.json.JSONObject
 
 class Email : Fragment(){
 
-    // Stores the final email
     private var finalEmail = ""
     private lateinit var progressDialog: ProgressDialog
 
@@ -26,33 +25,33 @@ class Email : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        // Faz inflate do layout para este fragmento
         val view = inflater.inflate(R.layout.signup_email_fragment, container, false)
 
-        // Create loading animation
+        // Cria a animação de carregamento
         progressDialog = ProgressDialog(requireActivity())
-        progressDialog.setMessage("Loading...")
+        progressDialog.setMessage("Carregamento...")
 
-        // Set up the click listener for the button
+        // Define listener para o botão "proximo"
         view.findViewById<View>(R.id.button3).setOnClickListener {
-            // Get the email entered by the user
+
+            // Guarda o email introduzido
             val editText = requireActivity().findViewById<EditText>(R.id.EmailField)
             val email = editText.text.toString()
-
-            // Store the email
             finalEmail = email
 
-            // Validate the email
+            // Valida o email
             if (email.isEmpty() || !RegexUtils.isEmailValid(email)) {
-                // Display an error message if the email is invalid
-                error("Enter a valid email")
+                error("Introduza um email valido")
             } else {
-                // Show loading animation
+                // Mostra a animação de carregamento
                 progressDialog.setCancelable(false)
                 progressDialog.show()
 
                 val request = REQUESTS()
 
+                // Faz request para validar email
                 request.validadeemail(email, object : REQUESTS.LoginCallback {
                     override fun onResult(response: String): Boolean {
                         val jsonString = response
@@ -79,13 +78,7 @@ class Email : Fragment(){
         return view
     }
 
-    // Switch to the next fragment
-    private fun onNextButtonClicked(fragment: String) {
-        if (activity is SignUp) {
-            (activity as SignUp).switchFragment(fragment, finalEmail)
-        }
-    }
-
+    // Mostra/altera menssagem de erro
     private fun error(message: String) {
         val editText = requireActivity().findViewById<EditText>(R.id.EmailField)
         val textView = requireActivity().findViewById<TextView>(R.id.EmailError)

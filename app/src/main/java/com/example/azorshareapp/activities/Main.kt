@@ -27,15 +27,15 @@ class Main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // set content view and hide action bar
+        // Define o contentView e desativa a actionbar
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
-        // get reference to bottom navigation view and set initial fragment
+        // Referencia do "bottomNavigation" e definir como fragmento inicial
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         supportFragmentManager.beginTransaction().replace(R.id.Container, discover).commit()
 
-        // set on item selected listener for bottom navigation view
+        // Define os listeners para os botoes na bottom navigation bar
         bottomNavigationView.setOnItemSelectedListener(object : NavigationBarView.OnItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 when (item.itemId) {
@@ -60,7 +60,7 @@ class Main : AppCompatActivity() {
             }
         })
 
-        // set on click listener for floating action button
+        // Define o listener para o botao flutuante da bottom navigation bar
         val myFab: FloatingActionButton = findViewById(R.id.Discovery)
         myFab.setOnClickListener {
             supportFragmentManager.beginTransaction().replace(R.id.Container, discover).commit()

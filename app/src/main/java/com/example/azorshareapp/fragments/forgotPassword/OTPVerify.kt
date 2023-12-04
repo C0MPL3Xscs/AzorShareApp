@@ -23,15 +23,18 @@ class OTPVerify : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        // Faz inflate do layout para este fragmento
         val view = inflater.inflate(R.layout.comun_opt_fragment, container, false)
-        // Create loading animation
+
+        // Cria a animação de carregamento
         progressDialog = ProgressDialog(activity)
-        progressDialog.setMessage("Loading...")
-        // Set up the button click listener
+        progressDialog.setMessage("Carregando...")
+
+        // Define listener para o botão "ResendEmail"
         view.findViewById<View>(R.id.ResendEmail).setOnClickListener {
             if (tries <= 3) {
-                // Resend OPT
+                // Envia um OTP novamento um maximo de 3 vezes
                 if (activity is ForgotPassword) {
                     (activity as ForgotPassword).sendOTP()
                 }
@@ -41,15 +44,17 @@ class OTPVerify : Fragment(){
             }
         }
 
+        // Define listener para o botão "proximo"
         view.findViewById<View>(R.id.FPCbt).setOnClickListener {
-            // Get the code entered by the user
+
+            // Guarda o codigo introduzido pelo utilizador
             val editText = activity?.findViewById<EditText>(R.id.CodeField)
             val otp = editText?.text.toString()
 
             if (otp.isNullOrEmpty()) {
-                error("Code can't be empty")
+                error("Codigo não pode ser vazio")
             } else {
-                // Show loading animation
+                // Mostra animação de carregamento
                 progressDialog.setCancelable(false)
                 progressDialog.show()
 
@@ -61,10 +66,12 @@ class OTPVerify : Fragment(){
                     email = (activity as ForgotPassword).getEmail()
                 }
 
+                // Request para validar OTP com o servidor
                 request.validateOtp(email, otp, object : REQUESTS.LoginCallback {
                     override fun onResult(response: String): Boolean {
                         val jsonString = response
                         val jsonObject = JSONObject(jsonString)
+                        // Caso o codigo introduzido esteja correto
                         if (jsonObject.getString("rescode") == "0001"){
                             progressDialog.dismiss()
                             if (activity is ForgotPassword) {
@@ -100,6 +107,7 @@ class OTPVerify : Fragment(){
         return view
     }
 
+    // Mostra/altera menssagem de erro
     private fun error(message: String) {
         val editText = activity?.findViewById<EditText>(R.id.CodeField)
         val textView = activity?.findViewById<TextView>(R.id.OTPError)

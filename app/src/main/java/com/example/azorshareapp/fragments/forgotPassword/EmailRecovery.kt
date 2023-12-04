@@ -23,16 +23,18 @@ class EmailRecovery : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.forgot_password_email_fragment, container, false)
-        // Create loading animation
-        progressDialog = ProgressDialog(requireActivity())
-        progressDialog.setMessage("Loading...")
 
-        // Set OnClickListener for the "Find Password" button
+        // Faz inflate do layout para este fragmento
+        val view = inflater.inflate(R.layout.forgot_password_email_fragment, container, false)
+
+        // Cria a animação de carregamento
+        progressDialog = ProgressDialog(requireActivity())
+        progressDialog.setMessage("Carregando...")
+
+        // Define listener para o botão "proximo"
         view.findViewById<View>(R.id.FPUbt).setOnClickListener {
 
-            // Get the entered email
+            // Guarda o email introduzido
             val editText = activity?.findViewById<EditText>(R.id.EmailField)
             val email = editText?.text.toString()
             enteredEmail = email.orEmpty()
@@ -40,14 +42,15 @@ class EmailRecovery : Fragment(){
                 (activity as ForgotPassword).setEmail(enteredEmail)
             }
 
-            // Validate the email
+            // Valida o email
             if (email.isNullOrEmpty()) {
                 error("Email cannot be empty")
             } else {
-                // Show loading animation
+                // Mostra a animação de carregamento
                 progressDialog.setCancelable(false)
                 progressDialog.show()
-                // Send a request to validate the username
+
+                // Request para validar email
                 val request = REQUESTS()
 
                 request.validadeemail(email, object : REQUESTS.LoginCallback {
@@ -55,6 +58,7 @@ class EmailRecovery : Fragment(){
                         val jsonString = response
                         val jsonObject = JSONObject(jsonString)
                         progressDialog.dismiss()
+                        // Caso email exista
                         if (jsonObject.getString("rescode") == "0001") {
                             if (activity is ForgotPassword) {
                                 (activity as ForgotPassword).otpView()
@@ -86,7 +90,7 @@ class EmailRecovery : Fragment(){
                     }
                 })
 
-                // Send an OTP
+                // Envia um OTP
                 if (activity is ForgotPassword) {
                     (activity as ForgotPassword).sendOTP()
                 }
@@ -96,6 +100,7 @@ class EmailRecovery : Fragment(){
         return view
     }
 
+    // Mostra/altera menssagem de erro
     private fun error(message: String) {
         val editText = activity?.findViewById<EditText>(R.id.EmailField)
         val textView = activity?.findViewById<TextView>(R.id.usernameError)
