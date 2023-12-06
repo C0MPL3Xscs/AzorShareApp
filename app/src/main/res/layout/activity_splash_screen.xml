@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/LogoSplashScreen"
         android:layout_width="248dp"
         android:layout_height="265dp"
         app:layout_constraintBottom_toBottomOf="parent"

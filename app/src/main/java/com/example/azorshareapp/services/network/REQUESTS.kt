@@ -97,12 +97,86 @@ class REQUESTS {
             }
         }
     }
+    fun generateToken(email: String, callback: LoginCallback) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val url = URL(domain + "generateToken/?email=$email")
+                val connection = url.openConnection() as HttpURLConnection
+
+                connection.requestMethod = "POST"
+                connection.doOutput = true
+
+                val responseCode = connection.responseCode
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Read the response
+                    val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                    val response = reader.use { it.readText() }
+
+                    // Return the result via callback
+                    withContext(Dispatchers.Main) {
+                        callback.onResult(response)
+                    }
+                } else {
+                    // Handle non-OK response codes
+                    withContext(Dispatchers.Main) {
+                        callback.onError("HTTP error: $responseCode")
+                    }
+                }
+                connection.disconnect()
+
+            } catch (e: Exception) {
+                // Handle any other exceptions
+                withContext(Dispatchers.Main) {
+                    callback.onError("An error occurred: ${e.message}")
+                }
+            }
+        }
+    }
 
     // Request para validar OTP
     fun validateOtp(email: String, otp: String, callback: LoginCallback) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val url = URL(domain + "verifyotp/?email=$email&otp=$otp")
+                val connection = url.openConnection() as HttpURLConnection
+
+                connection.requestMethod = "POST"
+                connection.doOutput = true
+
+                val responseCode = connection.responseCode
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Read the response
+                    val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                    val response = reader.use { it.readText() }
+
+                    // Return the result via callback
+                    withContext(Dispatchers.Main) {
+                        callback.onResult(response)
+                    }
+                } else {
+                    // Handle non-OK response codes
+                    withContext(Dispatchers.Main) {
+                        callback.onError("HTTP error: $responseCode")
+                    }
+                }
+                connection.disconnect()
+
+            } catch (e: Exception) {
+                // Handle any other exceptions
+                withContext(Dispatchers.Main) {
+                    callback.onError("An error occurred: ${e.message}")
+                }
+            }
+        }
+    }
+
+    // Request para validar LoginToken
+    fun validadeToken(token: String, callback: LoginCallback) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val url = URL(domain + "validatetoken/?email=$token")
                 val connection = url.openConnection() as HttpURLConnection
 
                 connection.requestMethod = "POST"

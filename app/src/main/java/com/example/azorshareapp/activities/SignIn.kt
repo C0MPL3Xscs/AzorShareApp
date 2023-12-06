@@ -94,19 +94,19 @@ class SignIn : AppCompatActivity() {
         progressDialog.setCancelable(false)
         progressDialog.show()
 
-        val username = EmailField.text.toString()
+        val email = EmailField.text.toString()
         val password = passwordField.text.toString()
 
         val request = REQUESTS()
 
-        request.login(username, password, object : REQUESTS.LoginCallback {
+        request.login(email, password, object : REQUESTS.LoginCallback {
             override fun onResult(response: String): Boolean {
                 val jsonString = response
                 val jsonObject = JSONObject(jsonString)
                 progressDialog.dismiss()
                 //Caso os dados sejam validos
                 if (jsonObject.getString("rescode") == "0001") {
-                    startApp()
+                    startApp(email)
                     return true
                 } else {
                     error("Palavra-passe ou nome de utilizador invalidos")
@@ -114,27 +114,39 @@ class SignIn : AppCompatActivity() {
                 return false
             }
             override fun onError(response: String): Boolean {
-                try {
-                    val jsonObject = JSONObject(response)
-                    progressDialog.dismiss()
-                    if (jsonObject.getString("rescode") == "0001") {
-                        startApp()
-                        return true
-                    } else {
-                        error("Palavra-passe ou nome de utilizador invalidos")
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    progressDialog.dismiss()
-                    error("Erro, tente novamente mais tarde")
-                }
+                progressDialog.dismiss()
+                error("Erro, tente novamente mais tarde")
                 return false
             }
         })
     }
 
     // Abre o ecrâ principal e termina a activity de login
-    private fun startApp() {
+    private fun startApp(email : String) {
+        val request = REQUESTS()
+
+        request.generateToken(email, object : REQUESTS.LoginCallback {
+            override fun onResult(response: String): Boolean {
+                val jsonString = response
+                val jsonObject = JSONObject(jsonString)
+
+                //Caso os dados sejam validos
+                if (jsonObject.getString("rescode") == "0001") {
+                    val token = jsonObject.getString("token")
+                    val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+                    val editor = preferences.edit()
+                    editor.putString("token", token)
+                    editor.apply()
+                    return true
+                } else {
+                    error("Palavra-passe ou nome de utilizador invalidos")
+                }
+                return false
+            }
+            override fun onError(response: String): Boolean {
+                return false
+            }
+        })
         val m = Intent(this, Main::class.java)
         startActivity(m)
         finish()
