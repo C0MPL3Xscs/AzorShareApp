@@ -1,8 +1,8 @@
 package com.example.azorshareapp.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.azorshareapp.fragments.main_screen.discover.Discover
 import com.example.azorshareapp.fragments.main_screen.notifications.Notifications
@@ -23,6 +23,7 @@ class Main : AppCompatActivity() {
     private val profile = Profile()
     private val search = Search()
     private val spaces = Spaces()
+    private var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +31,9 @@ class Main : AppCompatActivity() {
         // Define o contentView e desativa a actionbar
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        token = preferences.getString("token", null).toString()
 
         // Referencia do "bottomNavigation" e definir como fragmento inicial
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
@@ -65,5 +69,24 @@ class Main : AppCompatActivity() {
         myFab.setOnClickListener {
             supportFragmentManager.beginTransaction().replace(R.id.Container, discover).commit()
         }
+    }
+
+    fun logOUt(){
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.putString("token", null)
+        editor.apply()
+        val mainIntent = Intent(this@Main, SignIn::class.java)
+        startActivity(mainIntent)
+        finish()
+    }
+
+    fun OpenSettings(){
+        val mainIntent = Intent(this@Main, SettingsActivity::class.java)
+        startActivity(mainIntent)
+    }
+
+    fun getToken(): String {
+        return this.token
     }
 }

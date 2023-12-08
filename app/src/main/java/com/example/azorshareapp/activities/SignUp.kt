@@ -2,16 +2,16 @@ package com.example.azorshareapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.azorshareapp.R
 import com.example.azorshareapp.fragments.signUp.Email
 import com.example.azorshareapp.fragments.signUp.OTP
 import com.example.azorshareapp.fragments.signUp.Password
 import com.example.azorshareapp.fragments.signUp.Username
-import com.example.azorshareapp.utils.RegexUtils
 import androidx.fragment.app.FragmentManager
 import com.example.azorshareapp.services.network.REQUESTS
-import com.google.gson.Gson
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -78,10 +78,15 @@ class SignUp : AppCompatActivity(){
 
     // Termina a atividade
     override fun finish() {
+        showToast("Conta criada com sucesso")
         val intent = Intent(this, SignIn::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finishAffinity()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     // Muda de fragmento

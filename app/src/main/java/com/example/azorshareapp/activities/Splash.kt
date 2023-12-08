@@ -27,48 +27,58 @@ class Splash : AppCompatActivity() {
 
     // Metodo principal
     private fun main() {
-        // Cria um novo handler para atrazar o inicio da proxima atividade
+        // Create a new handler to delay the start of the next activity
         Handler().postDelayed({
-
             // Retrieve the token from cache (SharedPreferences or DataStore)
             val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
             val token = preferences.getString("token", null)
 
-            //Se tiver token guardado no cache valida o token e caso seja valido abre o main caso contrario abre o SignIn
+            // If there is a token in the cache, validate the token
             if (!token.isNullOrBlank()) {
                 val request = REQUESTS()
 
-                request.validadeToken(token, object : REQUESTS.LoginCallback {
+                // Validate the token asynchronously
+                request.validateToken(token, object : REQUESTS.LoginCallback {
                     override fun onResult(response: String): Boolean {
                         val jsonString = response
                         val jsonObject = JSONObject(jsonString)
 
-                        //Caso os dados sejam validos
+                        // If the data is valid, open the Main activity
                         if (jsonObject.getString("rescode") == "0001") {
-                            val Mainintent = Intent(this@Splash, Main::class.java)
+                            val mainIntent = Intent(this@Splash, Main::class.java)
 
-                            // Começa a atividade Main
-                            startActivity(Mainintent)
+                            // Start the Main activity
+                            startActivity(mainIntent)
                         } else {
-                            // Se o token não for válido, abre a atividade SignIn
+                            // If the token is not valid, open the SignIn activity
                             val signInIntent = Intent(this@Splash, SignIn::class.java)
                             startActivity(signInIntent)
                         }
+
+                        // Finish the Splash activity
+                        finish()
                         return true
-                    }override fun onError(response: String): Boolean {
+                    }
+
+                    override fun onError(response: String): Boolean {
+                        // Handle the error, for example, open the SignIn activity
                         val signInIntent = Intent(this@Splash, SignIn::class.java)
                         startActivity(signInIntent)
+
+                        // Finish the Splash activity
+                        finish()
                         return false
                     }
                 })
             } else {
-                // Se não houver token, abre a atividade SignIn
+                // If there is no token, open the SignIn activity
                 val signInIntent = Intent(this@Splash, SignIn::class.java)
                 startActivity(signInIntent)
-            }
 
-            // Termina a atividade
-            finish()
-        }, 3000) // Delay de 3 segundos (3000 milissegundos)
+                // Finish the Splash activity
+                finish()
+            }
+        }, 3000) // Delay for 3 seconds (3000 milliseconds)
     }
+
 }

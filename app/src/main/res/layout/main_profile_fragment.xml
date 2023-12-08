@@ -12,7 +12,7 @@
         android:layout_height="386dp"
         android:src="@drawable/default_banner" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ProfilePic"
         android:layout_width="191dp"
         android:layout_height="178dp"
@@ -22,10 +22,10 @@
         android:layout_marginStart="110dp"
         android:layout_marginEnd="110dp"
         android:layout_marginBottom="120dp"
-        android:src="@drawable/default_profile_picture" />
+        android:scaleType="centerCrop"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/Usernametxt"
         android:layout_width="169dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/ProfilePic"
@@ -34,7 +34,7 @@
         android:layout_marginStart="11dp"
         android:layout_marginEnd="11dp"
         android:layout_marginBottom="91dp"
-        android:text="Name Holder"
+        android:text=""
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20dp" />
@@ -87,5 +87,17 @@
             android:paddingTop="5dp"
             android:textColor="#fff" />
     </FrameLayout>
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="33dp"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="9dp"
+        android:background="@android:color/transparent"
+        android:drawableBottom="@drawable/more_vert_fill0_wght400_grad0_opsz24" />
+
 
 </RelativeLayout>

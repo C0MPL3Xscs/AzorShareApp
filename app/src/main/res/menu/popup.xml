@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_item_1"
+        android:title="Definições"/>
+    <item
+        android:id="@+id/menu_item_2"
+        android:title="Terminar Sessão"/>
+    <!-- Add more items as needed -->
+</menu>

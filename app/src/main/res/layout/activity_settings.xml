@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="209dp"
+        android:layout_height="201dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_logo_foreground" />
+
+    <TextView
+        android:id="@+id/OTPText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="Definições"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"/>
+
+    <Button
+        android:id="@+id/account"
+        android:layout_width="264dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="104dp"
+        android:text="Conta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/OTPText2"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/security"
+        android:layout_width="264dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="40dp"
+        android:text="Segurança"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/notifications"
+        android:layout_width="264dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="30dp"
+        android:text="Notificações"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/privacy"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/privacy"
+        android:layout_width="264dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="36dp"
+        android:text="Privacidade"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/security"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="261dp"
+        android:layout_height="20dp"
+        android:text="Definições relativamente á sua conta"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/account"
+        app:layout_constraintEnd_toEndOf="@+id/account"
+        app:layout_constraintStart_toStartOf="@+id/account" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="261dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="4dp"
+        android:text="Definições da segurança da sua informação"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/security"
+        app:layout_constraintEnd_toEndOf="@+id/security"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="@+id/security" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="261dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="4dp"
+        android:text="Definições da sua privacidade"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/privacy"
+        app:layout_constraintEnd_toEndOf="@+id/privacy"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="@+id/privacy" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="261dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="4dp"
+        android:text="Definições das notificações que recebe"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/notifications"
+        app:layout_constraintEnd_toEndOf="@+id/notifications"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="@+id/notifications" />
+
+    <FrameLayout
+        android:id="@+id/settingsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/OTPText2"
+        app:layout_constraintVertical_bias="0.751"
+        android:elevation="10dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

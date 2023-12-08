@@ -103,12 +103,13 @@ class SignIn : AppCompatActivity() {
             override fun onResult(response: String): Boolean {
                 val jsonString = response
                 val jsonObject = JSONObject(jsonString)
-                progressDialog.dismiss()
                 //Caso os dados sejam validos
                 if (jsonObject.getString("rescode") == "0001") {
-                    startApp(email)
+                    progressDialog.dismiss()
+                    startApp(jsonObject.getString("loginToken"))
                     return true
                 } else {
+                    progressDialog.dismiss()
                     error("Palavra-passe ou nome de utilizador invalidos")
                 }
                 return false
@@ -122,31 +123,13 @@ class SignIn : AppCompatActivity() {
     }
 
     // Abre o ecrâ principal e termina a activity de login
-    private fun startApp(email : String) {
-        val request = REQUESTS()
+    private fun startApp(token: String) {
 
-        request.generateToken(email, object : REQUESTS.LoginCallback {
-            override fun onResult(response: String): Boolean {
-                val jsonString = response
-                val jsonObject = JSONObject(jsonString)
+        val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.putString("token", token)
+        editor.apply()
 
-                //Caso os dados sejam validos
-                if (jsonObject.getString("rescode") == "0001") {
-                    val token = jsonObject.getString("token")
-                    val preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-                    val editor = preferences.edit()
-                    editor.putString("token", token)
-                    editor.apply()
-                    return true
-                } else {
-                    error("Palavra-passe ou nome de utilizador invalidos")
-                }
-                return false
-            }
-            override fun onError(response: String): Boolean {
-                return false
-            }
-        })
         val m = Intent(this, Main::class.java)
         startActivity(m)
         finish()

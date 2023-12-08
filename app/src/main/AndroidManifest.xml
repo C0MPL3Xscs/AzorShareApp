@@ -28,6 +28,8 @@
         <activity
             android:name=".activities.Main"
             android:exported="false" />
+        <activity android:name=".activities.SettingsActivity"
+            android:exported="false"/>
         <activity
             android:name=".activities.Splash"
             android:exported="true">
