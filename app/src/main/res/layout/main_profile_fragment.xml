@@ -21,8 +21,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="110dp"
         android:layout_marginEnd="110dp"
-        android:layout_marginBottom="120dp"
-        android:scaleType="centerCrop"/>
+        android:layout_marginBottom="100dp"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/Usernametxt"
@@ -33,11 +33,43 @@
         android:layout_alignBottom="@+id/BannerImg"
         android:layout_marginStart="11dp"
         android:layout_marginEnd="11dp"
-        android:layout_marginBottom="91dp"
+        android:layout_marginBottom="71dp"
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/Followers"
+        android:layout_width="169dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ProfilePic"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="6dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/Following"
+        android:layout_width="169dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ProfilePic"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="8dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -46,47 +78,44 @@
         android:layout_marginTop="-31dp">
 
         <FrameLayout
+            android:id="@+id/postsContainer"
             android:layout_width="match_parent"
             android:layout_height="411dp"
             android:layout_gravity="bottom">
-
-
         </FrameLayout>
 
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/Buttons"
-        android:layout_width="182dp"
-        android:layout_height="60dp"
+        android:layout_width="66dp"
+        android:layout_height="62dp"
         android:layout_alignBottom="@+id/BannerImg"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="114dp"
-        android:layout_marginEnd="115dp"
-        android:layout_marginBottom="-31dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginBottom="-32dp"
         android:foregroundGravity="center">
 
         <Button
             android:id="@+id/Followbt"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="left"
+            android:layout_width="94dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:background="@drawable/circle_buttons"
-            android:drawableTop="@drawable/baseline_person_add_alt_1_24"
+            android:text=""
             android:paddingTop="5dp"
             android:textColor="#fff" />
 
-        <Button
-            android:id="@+id/Messagebt"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="right"
-            android:background="@drawable/circle_buttons"
-            android:drawableTop="@drawable/baseline_message_24"
-            android:paddingTop="5dp"
-            android:textColor="#fff" />
     </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/button4"
@@ -98,6 +127,5 @@
         android:layout_marginEnd="9dp"
         android:background="@android:color/transparent"
         android:drawableBottom="@drawable/more_vert_fill0_wght400_grad0_opsz24" />
-
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.example.azorshareapp.fragments.main_screen.profile
 
 import android.R
 import android.R.attr.button
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
@@ -25,6 +27,8 @@ class Profile : Fragment() {
     var token = ""
     var pictureUrl = ""
     var username = ""
+    var followers = ""
+    var following = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,10 +41,14 @@ class Profile : Fragment() {
             this.token = (activity as Main).getToken()
         }
 
+        val loadingProgressBar = rootView.findViewById<ProgressBar>(com.example.azorshareapp.R.id.loadingProgressBar)
+        loadingProgressBar.visibility = View.VISIBLE
+
+
         val request = REQUESTS()
 
-        // Make the network request
         request.getUserData(token, object : REQUESTS.LoginCallback {
+            @SuppressLint("MissingInflatedId")
             override fun onResult(response: String): Boolean {
                 val jsonString = response
 
@@ -48,25 +56,31 @@ class Profile : Fragment() {
                     val jsonObject = JSONObject(jsonString)
                     pictureUrl = jsonObject.getString("profilePic")
                     username = jsonObject.getString("username")
-
+                    followers = jsonObject.getString("followers")
+                    following = jsonObject.getString("following")
 
                     rootView.findViewById<TextView>(com.example.azorshareapp.R.id.Usernametxt).text = username
+                    rootView.findViewById<TextView>(com.example.azorshareapp.R.id.Followers).text = followers + " SEGUIDORES"
+                    rootView.findViewById<TextView>(com.example.azorshareapp.R.id.Following).text = "SEGUINDO " + following
+                    rootView.findViewById<Button>(com.example.azorshareapp.R.id.Followbt).text = "EDITAR"
 
-                    // Apply the new profile picture
                     Glide.with(requireContext())
                         .load(pictureUrl)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(rootView.findViewById(com.example.azorshareapp.R.id.ProfilePic))
+
+                    loadingProgressBar.visibility = View.GONE // Hide loading indicator after loading data
                 } catch (e: Exception) {
                     Log.e("Tag", "Error processing JSON or loading image: $e")
+                    loadingProgressBar.visibility = View.GONE // Hide loading indicator in case of an error
                 }
 
                 return true
             }
 
             override fun onError(response: String): Boolean {
-                // Handle error if needed
                 Log.e("Tag", "Error in network request: $response")
+                loadingProgressBar.visibility = View.GONE // Hide loading indicator in case of an error
                 return false
             }
         })
